@@ -63,6 +63,7 @@ function StopWatch(milliSeconds, seconds, minutes, hours)
     function stop()
     {
         // stops the watch
+
     }
 
     function duration()
@@ -79,3 +80,4 @@ function StopWatch(milliSeconds, seconds, minutes, hours)
         hours.set = 0;
     }
 }
+
