@@ -1,83 +1,61 @@
 
 // Stop Watch using JS objects
 
-function StopWatch(milliSeconds, seconds, minutes, hours)
+function StopWatch()
 {
-    let milliSeconds, seconds, minutes, hours;
+    let startTime, endTime, running, duration = 0;
+    let milliSeconds, seconds, minutes, hours = 0;
 
-    // define milliSeconds
-    Object.defineProperty(this, 'milliSeconds', {
-        get: function(){return milliSeconds;},
-        set: function(value)
-        {
-            if(!value || value < 0) 
-                throw new Error('Invalid time (milliseconds)');
-            else
-                milliSeconds = value;
-        }
-    })
-    // define seconds
-    Object.defineProperty(this, 'seconds', {
-        get: function(){return seconds;},
-        set: function(value)
-        {
-            if(!value || value < 0 ) 
-                throw new Error('Invalid time (seconds)');
-            else
-                seconds = value;
-        }
-    })
-    // define minutes
-    Object.defineProperty(this, 'minutes', {
-        get: function(){return minutes;},
-        set: function(value)
-        {
-            if(!value || value < 0) 
-                throw new Error('Invalid time (minutes)');
-            else
-                minutes = value;
-        }
-    })
-    // define milliSeconds
-    Object.defineProperty(this, 'hours', {
-        get: function(){return hours;},
-        set: function(value)
-        {
-            if(!value || value < 0) 
-                throw new Error('Invalid time (hours)');
-            else
-                hours = value;
-        }
-    })
-
-    function getTime()
-    {
-        console.log(hours + " : " + minutes + " : " + seconds + " : " + milliSeconds);
-    }
-
-    function start()
+    this.start = function()
     {
         // starts the watch
+        if(running)
+            throw new Error('Stopwatch has already started.');
+        
+        running = true;
+
+        startTime = new Date(); // capture the current date and time
     }
 
-    function stop()
+    this.stop = function ()
     {
         // stops the watch
+        if(!running)
+            throw new Error('Stopwatch is not running');
 
+        running = false;
+
+        endTime = new Date();
+
+        this.calculateDuration();
     }
 
-    function duration()
-    {
-        // displays the duration after both stop and start
-    }
-
-    function reset()
+    this.reset = function()
     {
         // resets the time
-        milliSeconds.set = 0;
-        seconds.set = 0;
-        minutes.set = 0;
-        hours.set = 0;
+        startTime = null;
+        endTime = null;
+        running = false;
+        duration = null;
     }
-}
+
+    this.calculateDuration = function()
+    {
+        // get the milliseconds from the time and convert to seconds
+        milliSeconds = Math.trunc((endTime.getTime() - startTime.getTime()) % 1000);
+        seconds = Math.trunc( milliSeconds / 1000);
+        minutes = Math.trunc(seconds / 60);
+        hours = Math.trunc(seconds / 3600); 
+        duration = `${hours}:${minutes}:${seconds}:${milliSeconds}`;
+    }
+
+    Object.defineProperty(this, 'duration', {
+        get:function(){return duration;}
+    })
+
+
+} // end function StopWatch()
+
+let sw = new StopWatch();
+
 
