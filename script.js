@@ -27,7 +27,9 @@ function StopWatch()
 
         endTime = new Date();
 
-        this.calculateDuration();
+        duration = new Date(endTime - startTime);
+        
+        console.log(this.formatDuration());
     }
 
     this.reset = function()
@@ -39,14 +41,14 @@ function StopWatch()
         duration = null;
     }
 
-    this.calculateDuration = function()
+    this.formatDuration = function()
     {
         // get the milliseconds from the time and convert to seconds
-        milliSeconds = Math.trunc((endTime.getTime() - startTime.getTime()) % 1000);
+        milliSeconds = duration.getMilliseconds();
         seconds = Math.trunc( milliSeconds / 1000);
         minutes = Math.trunc(seconds / 60);
         hours = Math.trunc(seconds / 3600); 
-        duration = `${hours}:${minutes}:${seconds}:${milliSeconds}`;
+        return `${hours}:${minutes}:${seconds}:${milliSeconds}`;
     }
 
     Object.defineProperty(this, 'duration', {
