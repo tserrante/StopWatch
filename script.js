@@ -3,8 +3,9 @@
 
 function StopWatch()
 {
-    let startTime, endTime, running, duration = 0;
-    let milliSeconds, seconds, minutes, hours = 0;
+    let startTime, running = 0;
+    let stopWatch = document.querySelector('#time');
+    let runner = null; // variable for setInterval
 
     this.start = function()
     {
@@ -14,7 +15,9 @@ function StopWatch()
         
         running = true;
 
-        startTime = new Date(); // capture the current date and time
+        startTime = new Date; // capture the current date and time
+
+        runner = setInterval(this.displayTime, 10);
     }
 
     this.stop = function ()
@@ -24,12 +27,8 @@ function StopWatch()
             throw new Error('Stopwatch is not running');
 
         running = false;
-
-        endTime = new Date();
-
-        duration = new Date(endTime - startTime);
-        
-        console.log(this.formatDuration());
+        startTime = null;
+        clearInterval(runner);
     }
 
     this.reset = function()
@@ -39,16 +38,30 @@ function StopWatch()
         endTime = null;
         running = false;
         duration = null;
+        stopWatch.innerText = '00:00:00.000';
     }
 
-    this.formatDuration = function()
+    this.displayTime = function()
     {
-        // get the milliseconds from the time and convert to seconds
-        milliSeconds = duration.getMilliseconds();
-        seconds = Math.trunc( milliSeconds / 1000);
+        // get the millisecondss from the start time
+        let millis, seconds, minutes, hours = 0;
+        let hr, min, sec = null;
+        
+        // Get duration in millisecondss and create time values
+        // Math.trunc() removes the decimal portion of minutess and hourss
+        millis = Date.now() - startTime; 
+        seconds = millis / 1000;
+        seconds.toFixed(3); // always show seconds to three decimal places
         minutes = Math.trunc(seconds / 60);
-        hours = Math.trunc(seconds / 3600); 
-        return `${hours}:${minutes}:${seconds}:${milliSeconds}`;
+        hours = Math.trunc(minutes / 60);
+
+        // Format time by conditionally prepending a zero
+        hr = hours < 10 ? '0' + hours : hours;
+        min = minutes < 10 ? '0' + minutes : minutes;
+        sec = seconds < 10 ? '0' + seconds : seconds;
+
+        // update stopWatch DOM element
+        stopWatch.innerText = `${hr}:${min}:${sec}`;
     }
 
     Object.defineProperty(this, 'duration', {
@@ -57,6 +70,7 @@ function StopWatch()
 
 
 } // end function StopWatch()
+
 
 let sw = new StopWatch();
 
