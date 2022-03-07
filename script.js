@@ -4,8 +4,16 @@
 function StopWatch()
 {
     let startTime, running = 0;
-    let stopWatch = document.querySelector('#time');
     let runner = null; // variable for setInterval
+
+    let stopWatch = document.querySelector('#time');
+    let startButton = document.querySelector('.start');
+    let stopButton = document.querySelector('.stop');
+    let resetButton = document.querySelector('.reset');
+
+    startButton.addEventListener('click', () => this.start());
+    stopButton.addEventListener('click', () => this.stop());
+    resetButton.addEventListener('click', () => this.reset());
 
     this.start = function()
     {
@@ -27,12 +35,14 @@ function StopWatch()
             throw new Error('Stopwatch is not running');
 
         running = false;
-        startTime = null;
+        //startTime = null;
         clearInterval(runner);
     }
 
     this.reset = function()
     {
+        if(running)
+            throw new Error('Cannot reset while running.');
         // resets the time
         startTime = null;
         endTime = null;
@@ -51,7 +61,7 @@ function StopWatch()
         // Math.trunc() removes the decimal portion of minutess and hourss
         millis = Date.now() - startTime; 
         seconds = millis / 1000;
-        seconds.toFixed(3); // always show seconds to three decimal places
+        seconds.toPrecision(3); // always show seconds to three decimal places
         minutes = Math.trunc(seconds / 60);
         hours = Math.trunc(minutes / 60);
 
@@ -63,12 +73,6 @@ function StopWatch()
         // update stopWatch DOM element
         stopWatch.innerText = `${hr}:${min}:${sec}`;
     }
-
-    Object.defineProperty(this, 'duration', {
-        get:function(){return duration;}
-    })
-
-
 } // end function StopWatch()
 
 

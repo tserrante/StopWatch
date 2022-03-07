@@ -1,0 +1,45 @@
+
+
+
+
+#title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width:auto;
+    height: 3em;
+    margin: auto;   
+}
+
+.stopwatch{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height:10em;
+}
+
+#time{
+    font-size: 3em;
+}
+
+button{
+   margin: 1em 1em;
+   padding: 1em 1em;
+   border: 0.125em;
+   width: 7em;
+   background-color: green;
+   color:white;
+}
+
+button:hover{
+    opacity: 0.5;
+}
+button:focus{
+    background-color: red;
+    
+}
+
+
+
+
