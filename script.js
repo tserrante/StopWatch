@@ -55,13 +55,12 @@ function StopWatch()
     {
         // get the millisecondss from the start time
         let millis, seconds, minutes, hours = 0;
-        let hr, min, sec = null;
+        let hr, min, sec, ms = null;
         
         // Get duration in millisecondss and create time values
         // Math.trunc() removes the decimal portion of minutess and hourss
         millis = Date.now() - startTime; 
-        seconds = millis / 1000;
-        seconds.toPrecision(3); // always show seconds to three decimal places
+        seconds = Math.trunc(millis / 1000);
         minutes = Math.trunc(seconds / 60);
         hours = Math.trunc(minutes / 60);
 
@@ -69,13 +68,15 @@ function StopWatch()
         hr = hours < 10 ? '0' + hours : hours;
         min = minutes < 10 ? '0' + minutes : minutes;
         sec = seconds < 10 ? '0' + seconds : seconds;
-
+        millis %= 1000; // otherwise, millis will continue past three digits in stop watch
+        ms = millis < 10 ? '00' + millis : millis < 100 ? '0' + millis : millis;
+        
         // update stopWatch DOM element
-        stopWatch.innerText = `${hr}:${min}:${sec}`;
+        stopWatch.innerText = `${hr}:${min}:${sec}.${ms}`;
     }
 } // end function StopWatch()
 
 
-let sw = new StopWatch();
+const sw = new StopWatch();
 
 
