@@ -3,8 +3,10 @@
 
 function StopWatch()
 {
-    let startTime, running = 0;
+    let startTime, stoppedTime = 0;
+    let running = false;
     let runner = null; // variable for setInterval
+    let millis, seconds, minutes, hours = 0;
 
     let stopWatch = document.querySelector('#time');
     let startButton = document.querySelector('.start');
@@ -22,9 +24,7 @@ function StopWatch()
             throw new Error('Stopwatch has already started.');
         
         running = true;
-
         startTime = new Date; // capture the current date and time
-
         runner = setInterval(this.displayTime, 10);
     }
 
@@ -35,31 +35,30 @@ function StopWatch()
             throw new Error('Stopwatch is not running');
 
         running = false;
-        //startTime = null;
+        stoppedTime += Date.now() - startTime;
         clearInterval(runner);
     }
 
     this.reset = function()
     {
         if(running)
-            throw new Error('Cannot reset while running.');
+        {
+            this.stop();
+        }
         // resets the time
-        startTime = null;
-        endTime = null;
+        startTime = 0;
+        stoppedTime = 0
         running = false;
-        duration = null;
         stopWatch.innerText = '00:00:00.000';
     }
 
     this.displayTime = function()
     {
-        // get the millisecondss from the start time
-        let millis, seconds, minutes, hours = 0;
         let hr, min, sec, ms = null;
-        
+
         // Get duration in millisecondss and create time values
         // Math.trunc() removes the decimal portion of minutess and hourss
-        millis = Date.now() - startTime; 
+        millis = Date.now() - startTime + stoppedTime; 
         seconds = Math.trunc(millis / 1000);
         minutes = Math.trunc(seconds / 60);
         hours = Math.trunc(minutes / 60);
