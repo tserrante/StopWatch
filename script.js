@@ -69,8 +69,6 @@ function StopWatch()
     }
     let getTime = function()
     {
-        if(running)
-        {
             let hr = '0', min = '0', sec = '0', ms = '0';
 
             // Format time by conditionally prepending a zero
@@ -80,9 +78,7 @@ function StopWatch()
             millis %= 1000; // otherwise, millis will continue past three digits in stop watch
             ms = millis < 10 ? '00' + millis : millis < 100 ? '0' + millis : millis;
             return `${hr}:${min}:${sec}.${ms}`;
-        }
-        else
-            return '00:00:00.000';
+            //return '00:00:00.000';
     }
     this.lapTime = function()
     {
