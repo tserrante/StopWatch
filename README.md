@@ -1,6 +1,6 @@
 A simple JavaScript stopwatch using OOP techniques
 
-The stopwatch is implemented as an object sw
+The stopwatch is implemented as an object
 
 To Do
 
