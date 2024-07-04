@@ -62,23 +62,28 @@ function StopWatch()
     {
         // Get duration in millisecondss and create time values
         // Math.trunc() removes the decimal portion of minutess and hours
-        millis = Date.now() - startTime + stoppedTime; 
+        millis = Date.now() - startTime + stoppedTime;
         seconds = Math.trunc(millis / 1000);
         minutes = Math.trunc(seconds / 60);
         hours = Math.trunc(minutes / 60);
     }
     let getTime = function()
     {
-            let hr = '0', min = '0', sec = '0', ms = '0';
+        let hrString = '0', minString = '0', secString = '0', msString = '0';
 
-            // Format time by conditionally prepending a zero
-            hr = hours < 10 ? '0' + hours : hours;
-            min = minutes < 10 ? '0' + minutes : minutes;
-            sec = seconds < 10 ? '0' + seconds : seconds;
-            millis %= 1000; // otherwise, millis will continue past three digits in stop watch
-            ms = millis < 10 ? '00' + millis : millis < 100 ? '0' + millis : millis;
-            return `${hr}:${min}:${sec}.${ms}`;
-            //return '00:00:00.000';
+        millis %= 1000; // otherwise, millis will continue past three digits in stop watch
+        msString = millis < 10 ? '00' + millis : millis < 100 ? '0' + millis : millis;
+
+        seconds %= 60;
+        secString = seconds < 10 ? '0' + seconds : seconds;
+
+        minutes %= 60;
+        minString = minutes < 10 ? '0' + minutes : minutes;
+
+        hours %= 60;
+        hrString = hours < 10 ? '0' + hours : hours;
+
+        return `${hrString}:${minString}:${secString}.${msString}`;
     }
     this.lapTime = function()
     {
@@ -97,9 +102,6 @@ function StopWatch()
         calculateTime();
         stopWatch.innerText = getTime();
     }
-} // end function StopWatch()
-
+} 
 
 const sw = new StopWatch();
-
-
